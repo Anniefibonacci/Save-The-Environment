@@ -1,405 +1,785 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🐢 Ocean Guardian - Bảo Vệ Đại Dương</title>
+    <title>🐢 Save Our Oceans - Take Action Now</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --ocean-deep: #0a192f;
+            --ocean-mid: #1a365d;
+            --ocean-light: #2c5282;
+            --coral: #ff6b6b;
+            --sand: #f4e4c1;
+            --seafoam: #4ecdc4;
+            --pearl: #f8f9fa;
+            --shadow: rgba(10, 25, 47, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(165deg, #0a192f 0%, #1a365d 40%, #2c5282 70%, #4a90a4 100%);
+            background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
             position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Oceanic background effects */
+        .ocean-layer {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
             overflow: hidden;
         }
 
-        /* Animated bubbles background */
-        .bubble {
+        .wave {
             position: absolute;
-            bottom: -100px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 200%;
+            height: 200px;
+            background: linear-gradient(180deg, rgba(78, 205, 196, 0.1) 0%, transparent 100%);
             border-radius: 50%;
-            animation: rise 15s infinite ease-in;
+            animation: wave-motion 25s ease-in-out infinite;
         }
 
-        @keyframes rise {
-            to {
-                bottom: 110vh;
+        .wave:nth-child(1) {
+            top: 10%;
+            left: -50%;
+            animation-delay: 0s;
+        }
+
+        .wave:nth-child(2) {
+            top: 40%;
+            left: -30%;
+            animation-delay: 5s;
+            opacity: 0.7;
+        }
+
+        .wave:nth-child(3) {
+            top: 70%;
+            left: -60%;
+            animation-delay: 10s;
+            opacity: 0.5;
+        }
+
+        @keyframes wave-motion {
+            0%, 100% {
+                transform: translateX(0) rotate(0deg);
+            }
+            50% {
+                transform: translateX(100px) rotate(5deg);
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: float-particle 20s infinite ease-in-out;
+        }
+
+        @keyframes float-particle {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px);
                 opacity: 0;
             }
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            padding: 40px;
-            max-width: 600px;
+            background: rgba(248, 249, 250, 0.98);
+            border-radius: 32px;
+            padding: 60px 50px;
+            max-width: 700px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            text-align: center;
+            margin: 40px auto;
+            box-shadow: 
+                0 30px 90px rgba(10, 25, 47, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
             position: relative;
             z-index: 10;
-            animation: fadeIn 0.8s ease-out;
+            backdrop-filter: blur(20px);
+            animation: container-entrance 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes fadeIn {
+        @keyframes container-entrance {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(60px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) scale(1);
             }
         }
 
-        .logo {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+        /* Decorative corner accent */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--seafoam), var(--coral), var(--ocean-light));
+            border-radius: 32px;
+            z-index: -1;
+            opacity: 0;
+            animation: border-glow 3s ease-in-out infinite;
         }
 
-        @keyframes float {
+        @keyframes border-glow {
             0%, 100% {
-                transform: translateY(0px);
+                opacity: 0;
             }
             50% {
-                transform: translateY(-15px);
+                opacity: 0.3;
+            }
+        }
+
+        .turtle-icon {
+            font-size: 100px;
+            text-align: center;
+            margin-bottom: 24px;
+            animation: turtle-swim 4s ease-in-out infinite;
+            filter: drop-shadow(0 8px 20px rgba(78, 205, 196, 0.3));
+        }
+
+        @keyframes turtle-swim {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-12px) rotate(-3deg);
+            }
+            75% {
+                transform: translateY(12px) rotate(3deg);
             }
         }
 
         h1 {
-            color: #1e3c72;
-            font-size: 2em;
-            margin-bottom: 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            font-weight: 900;
+            color: var(--ocean-deep);
+            text-align: center;
+            margin-bottom: 16px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #0a192f 0%, #2c5282 50%, #4ecdc4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95em;
+            text-align: center;
+            color: var(--ocean-mid);
+            margin-bottom: 40px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
             font-weight: 700;
         }
 
-        .subtitle {
-            color: #666;
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            line-height: 1.6;
-        }
-
-        .question-box {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .scenario-box {
+            background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
             color: white;
-            padding: 25px;
+            padding: 36px;
             border-radius: 20px;
-            margin-bottom: 30px;
-            font-size: 1.2em;
-            line-height: 1.8;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            margin-bottom: 36px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 50px rgba(10, 25, 47, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
         }
 
-        .choices {
+        .scenario-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></svg>');
+            background-size: 30px 30px;
+            opacity: 0.3;
+            animation: pattern-drift 30s linear infinite;
+        }
+
+        @keyframes pattern-drift {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(30px);
+            }
+        }
+
+        .scenario-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5em;
+            line-height: 1.6;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+        }
+
+        .scenario-emoji {
+            font-size: 1.8em;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .question-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75em;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--seafoam);
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: inline-block;
+            padding: 6px 12px;
+            background: rgba(78, 205, 196, 0.2);
+            border-radius: 6px;
+        }
+
+        .choices-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
 
-        .choice-btn {
+        .choice-card {
             background: white;
-            border: 3px solid #667eea;
-            color: #667eea;
-            padding: 20px 30px;
-            border-radius: 15px;
-            font-size: 1.1em;
-            font-weight: 600;
+            border: 3px solid var(--ocean-deep);
+            padding: 24px 28px;
+            border-radius: 16px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 16px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .choice-btn:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .choice-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(78, 205, 196, 0.2), transparent);
+            transition: left 0.5s;
         }
 
-        .choice-btn:active {
-            transform: translateY(0);
+        .choice-card:hover::before {
+            left: 100%;
         }
 
-        .result {
+        .choice-card:hover {
+            transform: translateX(8px) scale(1.02);
+            border-color: var(--seafoam);
+            box-shadow: 
+                -8px 8px 0 var(--seafoam),
+                0 20px 40px rgba(78, 205, 196, 0.2);
+        }
+
+        .choice-card:active {
+            transform: translateX(6px) scale(0.98);
+        }
+
+        .choice-icon {
+            font-size: 2em;
+            flex-shrink: 0;
+            filter: grayscale(0.3);
+            transition: all 0.3s;
+        }
+
+        .choice-card:hover .choice-icon {
+            filter: grayscale(0);
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .choice-content {
+            flex: 1;
+        }
+
+        .choice-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: var(--ocean-deep);
+            margin-bottom: 6px;
+        }
+
+        .choice-subtitle {
+            font-size: 0.9em;
+            color: var(--ocean-mid);
+            line-height: 1.4;
+        }
+
+        /* Result view */
+        .result-view {
             display: none;
-            animation: slideIn 0.6s ease-out;
+            animation: result-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @keyframes slideIn {
+        .result-view.active {
+            display: block;
+        }
+
+        @keyframes result-entrance {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: translateY(40px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateY(0) scale(1);
             }
         }
 
-        .result.show {
-            display: block;
+        .success-icon {
+            font-size: 120px;
+            text-align: center;
+            margin-bottom: 28px;
+            animation: success-pulse 2s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(78, 205, 196, 0.4));
+        }
+
+        @keyframes success-pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        .result-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: var(--ocean-deep);
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
         .result-image {
             width: 100%;
-            max-width: 400px;
-            height: 300px;
-            margin: 20px auto;
+            height: 320px;
             border-radius: 20px;
             object-fit: cover;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin: 32px 0;
+            box-shadow: 
+                0 30px 60px rgba(10, 25, 47, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            border: 4px solid white;
         }
 
-        .result-message {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        .message-card {
+            background: linear-gradient(135deg, var(--seafoam) 0%, #3aa99f 100%);
             color: white;
-            padding: 30px;
+            padding: 40px;
             border-radius: 20px;
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-top: 20px;
-            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
-            line-height: 1.8;
+            margin: 32px 0;
+            box-shadow: 
+                0 20px 50px rgba(78, 205, 196, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
         }
 
-        .impact-stats {
+        .message-card strong {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6em;
+            display: block;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .message-card p {
+            font-size: 1.05em;
+            line-height: 1.7;
+            margin-top: 12px;
+        }
+
+        .message-tip {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9em;
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            border-left: 4px solid white;
+        }
+
+        .impact-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 25px;
+            gap: 16px;
+            margin: 32px 0;
         }
 
-        .stat-box {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            border: 2px solid #667eea;
+        .impact-stat {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            text-align: center;
+            border: 2px solid var(--ocean-light);
+            transition: all 0.3s;
         }
 
-        .stat-number {
-            font-size: 2em;
-            font-weight: 700;
-            color: #667eea;
+        .impact-stat:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(10, 25, 47, 0.15);
+        }
+
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            font-weight: 900;
+            color: var(--ocean-deep);
             display: block;
+            margin-bottom: 8px;
         }
 
         .stat-label {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75em;
+            color: var(--ocean-mid);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1.4;
         }
 
-        .share-buttons {
+        .action-buttons {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 25px;
+            gap: 12px;
+            margin-top: 32px;
+            flex-wrap: wrap;
         }
 
-        .share-btn {
-            background: #667eea;
-            color: white;
+        .btn {
+            flex: 1;
+            min-width: 140px;
+            padding: 16px 28px;
             border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-size: 1em;
+            border-radius: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95em;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .share-btn:hover {
-            background: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .restart-btn {
-            background: transparent;
-            border: 2px solid #667eea;
-            color: #667eea;
-        }
-
-        .restart-btn:hover {
-            background: #667eea;
+        .btn-primary {
+            background: linear-gradient(135deg, var(--ocean-deep) 0%, var(--ocean-mid) 100%);
             color: white;
+            box-shadow: 0 8px 20px rgba(10, 25, 47, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(10, 25, 47, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--ocean-deep);
+            border: 3px solid var(--ocean-deep);
+        }
+
+        .btn-secondary:hover {
+            background: var(--ocean-deep);
+            color: white;
+            transform: translateY(-3px);
         }
 
         .hidden {
             display: none;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             .container {
-                padding: 25px;
+                padding: 40px 25px;
+                margin: 20px auto;
+                border-radius: 24px;
             }
-            
+
             h1 {
-                font-size: 1.5em;
+                font-size: 2em;
             }
-            
-            .question-box {
-                font-size: 1em;
+
+            .turtle-icon {
+                font-size: 80px;
+            }
+
+            .tagline {
+                font-size: 0.85em;
+            }
+
+            .scenario-box {
+                padding: 28px 24px;
+            }
+
+            .scenario-text {
+                font-size: 1.15em;
+            }
+
+            .choice-card {
                 padding: 20px;
             }
-            
-            .choice-btn {
+
+            .choice-icon {
+                font-size: 1.5em;
+            }
+
+            .choice-title {
                 font-size: 1em;
-                padding: 15px 20px;
             }
-            
-            .impact-stats {
+
+            .choice-subtitle {
+                font-size: 0.85em;
+            }
+
+            .result-title {
+                font-size: 1.8em;
+            }
+
+            .success-icon {
+                font-size: 90px;
+            }
+
+            .result-image {
+                height: 240px;
+            }
+
+            .message-card {
+                padding: 28px 24px;
+            }
+
+            .message-card strong {
+                font-size: 1.3em;
+            }
+
+            .impact-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .impact-stat {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 2em;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                min-width: auto;
             }
         }
 
-        .emoji-icon {
-            font-size: 1.3em;
-        }
-
-        .heartbeat {
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
+        /* Loading state */
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
             }
-            25% {
-                transform: scale(1.1);
+            100% {
+                background-position: 1000px 0;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Animated bubbles -->
+    <!-- Ocean effects background -->
+    <div class="ocean-layer">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
+    <!-- Floating particles -->
     <script>
-        for (let i = 0; i < 15; i++) {
-            const bubble = document.createElement('div');
-            bubble.className = 'bubble';
-            const size = Math.random() * 60 + 20;
-            bubble.style.width = size + 'px';
-            bubble.style.height = size + 'px';
-            bubble.style.left = Math.random() * 100 + '%';
-            bubble.style.animationDelay = Math.random() * 15 + 's';
-            bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            document.body.appendChild(bubble);
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            document.body.appendChild(particle);
         }
     </script>
 
     <div class="container">
-        <!-- Initial Question View -->
+        <!-- Question View -->
         <div id="questionView">
-            <div class="logo">🐢</div>
-            <h1>Rùa Biển Cần Sự Giúp Đỡ!</h1>
-            <p class="subtitle">Một con rùa đang nhầm rác thải nhựa với thức ăn...</p>
-            
-            <div class="question-box">
-                <strong>❓ Bạn sẽ làm gì để bảo vệ rùa biển và đại dương?</strong>
+            <div class="turtle-icon">🐢</div>
+            <h1>Save Our Oceans</h1>
+            <p class="tagline">Every Action Counts</p>
+
+            <div class="scenario-box">
+                <span class="scenario-emoji">🌊</span>
+                <div class="question-label">Critical Situation</div>
+                <p class="scenario-text">A turtle mistakes plastic for food. What will you do?</p>
             </div>
 
-            <div class="choices">
-                <button class="choice-btn" onclick="makeChoice('reduce')">
-                    <span class="emoji-icon">♻️</span>
-                    <span>Tôi sẽ giảm sử dụng nhựa</span>
-                </button>
-                <button class="choice-btn" onclick="makeChoice('recycle')">
-                    <span class="emoji-icon">🗑️</span>
-                    <span>Tôi sẽ tái chế đúng cách</span>
-                </button>
-                <button class="choice-btn" onclick="makeChoice('spread')">
-                    <span class="emoji-icon">📢</span>
-                    <span>Tôi sẽ lan tỏa thông điệp này</span>
-                </button>
+            <div class="choices-container">
+                <div class="choice-card" onclick="selectChoice('reduce')">
+                    <div class="choice-icon">♻️</div>
+                    <div class="choice-content">
+                        <div class="choice-title">Reduce Plastic Use</div>
+                        <div class="choice-subtitle">Start using reusable bags, bottles, and containers</div>
+                    </div>
+                </div>
+
+                <div class="choice-card" onclick="selectChoice('recycle')">
+                    <div class="choice-icon">🗑️</div>
+                    <div class="choice-content">
+                        <div class="choice-title">Recycle Properly</div>
+                        <div class="choice-subtitle">Sort waste correctly and support recycling programs</div>
+                    </div>
+                </div>
+
+                <div class="choice-card" onclick="selectChoice('spread')">
+                    <div class="choice-icon">📢</div>
+                    <div class="choice-content">
+                        <div class="choice-title">Spread This Message</div>
+                        <div class="choice-subtitle">Educate others and amplify the movement</div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Result View -->
-        <div id="resultView" class="result">
-            <div class="logo heartbeat">💚</div>
-            <h1>Cảm Ơn Bạn Đã Hành Động!</h1>
-            
-            <img id="resultImage" class="result-image" src="" alt="Ocean life">
-            
-            <div class="result-message" id="resultMessage">
-                ✨ <strong>Một hành động nhỏ có thể cứu một sinh mạng.</strong>
+        <div id="resultView" class="result-view">
+            <div class="success-icon">💚</div>
+            <h1 class="result-title">Thank You for Taking Action!</h1>
+
+            <img id="resultImage" class="result-image" src="" alt="Ocean conservation">
+
+            <div class="message-card" id="messageCard">
+                <strong>One small action can save a life.</strong>
+                <p id="messageText"></p>
+                <div class="message-tip" id="messageTip"></div>
             </div>
 
-            <div class="impact-stats">
-                <div class="stat-box">
-                    <span class="stat-number">8M</span>
-                    <span class="stat-label">tấn nhựa/năm vào đại dương</span>
+            <div class="impact-grid">
+                <div class="impact-stat">
+                    <span class="stat-value">8M</span>
+                    <span class="stat-label">Tons of plastic enter oceans yearly</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-number">100K+</span>
-                    <span class="stat-label">sinh vật biển chết mỗi năm</span>
+                <div class="impact-stat">
+                    <span class="stat-value">100K+</span>
+                    <span class="stat-label">Marine animals die annually</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-number">1</span>
-                    <span class="stat-label">hành động của bạn tạo nên khác biệt</span>
+                <div class="impact-stat">
+                    <span class="stat-value">YOU</span>
+                    <span class="stat-label">Can make a difference</span>
                 </div>
             </div>
 
-            <div class="share-buttons">
-                <button class="share-btn" onclick="shareMessage()">
-                    📱 Chia Sẻ Thông Điệp
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="shareAction()">
+                    📱 Share This Message
                 </button>
-                <button class="share-btn restart-btn" onclick="restart()">
-                    🔄 Bắt Đầu Lại
+                <button class="btn btn-secondary" onclick="restart()">
+                    🔄 Start Over
                 </button>
             </div>
         </div>
     </div>
 
     <script>
-        const messages = {
+        const actionData = {
             reduce: {
-                text: '🌊 <strong>Tuyệt vời!</strong><br><br>Giảm sử dụng nhựa là bước đầu tiên quan trọng nhất. Mỗi năm, 8 triệu tấn nhựa đổ ra đại dương.<br><br>💡 <em>Bắt đầu ngay: Dùng túi vải, bình nước, ống hút inox!</em>',
-                image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop'
+                image: 'https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=800&h=600&fit=crop&q=80',
+                message: 'Reducing plastic use is the most effective way to protect marine life. Every year, 8 million tons of plastic waste enter our oceans, harming countless sea creatures.',
+                tip: '💡 Start today: Use reusable bags, water bottles, and say no to single-use plastics!'
             },
             recycle: {
-                text: '♻️ <strong>Tái chế thông minh!</strong><br><br>Tái chế đúng cách giúp giảm 70% rác thải nhựa. Chỉ 9% nhựa trên thế giới được tái chế.<br><br>💡 <em>Hãy phân loại rác ngay tại nhà!</em>',
-                image: 'https://images.unsplash.com/photo-1591025207163-942350e47db2?w=800&h=600&fit=crop'
+                image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&h=600&fit=crop&q=80',
+                message: 'Proper recycling can reduce ocean plastic by up to 70%. Only 9% of all plastic ever produced has been recycled. Your action matters!',
+                tip: '💡 Learn your local recycling rules and always separate waste properly at home!'
             },
             spread: {
-                text: '📢 <strong>Lan tỏa là sức mạnh!</strong><br><br>Mỗi người ảnh hưởng trung bình 150 người khác. Thông điệp của bạn có thể cứu hàng nghìn sinh mạng.<br><br>💡 <em>Chia sẻ ngay với bạn bè và gia đình!</em>',
-                image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=600&fit=crop'
+                image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=600&fit=crop&q=80',
+                message: 'Spreading awareness creates exponential impact. Each person influences an average of 150 others. Your voice can save thousands of marine lives!',
+                tip: '💡 Share this message on social media and talk to friends and family today!'
             }
         };
 
-        function makeChoice(choice) {
+        function selectChoice(action) {
             const questionView = document.getElementById('questionView');
             const resultView = document.getElementById('resultView');
-            const resultMessage = document.getElementById('resultMessage');
             const resultImage = document.getElementById('resultImage');
+            const messageText = document.getElementById('messageText');
+            const messageTip = document.getElementById('messageTip');
 
-            // Update content based on choice
-            const choiceData = messages[choice];
-            resultMessage.innerHTML = choiceData.text;
-            resultImage.src = choiceData.image;
+            // Get action data
+            const data = actionData[action];
+
+            // Update content
+            resultImage.src = data.image;
+            messageText.textContent = data.message;
+            messageTip.textContent = data.tip;
 
             // Animate transition
-            questionView.style.animation = 'fadeIn 0.5s ease-out reverse';
+            questionView.style.animation = 'container-entrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) reverse';
+            
             setTimeout(() => {
                 questionView.classList.add('hidden');
-                resultView.classList.add('show');
+                resultView.classList.add('active');
+                
+                // Scroll to top smoothly
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 500);
         }
 
@@ -407,19 +787,23 @@
             const questionView = document.getElementById('questionView');
             const resultView = document.getElementById('resultView');
 
-            resultView.classList.remove('show');
+            resultView.classList.remove('active');
+            
             setTimeout(() => {
                 questionView.classList.remove('hidden');
-                questionView.style.animation = 'fadeIn 0.8s ease-out';
+                questionView.style.animation = 'container-entrance 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+                
+                // Scroll to top
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 300);
         }
 
-        function shareMessage() {
-            const shareText = "🐢 Tôi vừa cam kết bảo vệ đại dương! Hãy cùng hành động để cứu sinh vật biển khỏi rác thải nhựa. Mỗi hành động nhỏ đều tạo nên khác biệt lớn! 🌊💚";
+        function shareAction() {
+            const shareText = '🐢 I just committed to protecting our oceans! Join me in taking action against plastic pollution. One small action can save a life. 🌊💚';
             
             if (navigator.share) {
                 navigator.share({
-                    title: 'Ocean Guardian - Bảo Vệ Đại Dương',
+                    title: 'Save Our Oceans',
                     text: shareText,
                     url: window.location.href
                 }).catch(() => {
@@ -433,12 +817,20 @@
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text + '\n\n' + window.location.href)
                 .then(() => {
-                    alert('✅ Đã sao chép thông điệp! Hãy chia sẻ đến mọi người nhé! 🌊');
+                    alert('✅ Message copied! Share it with your friends and family! 🌊');
                 })
                 .catch(() => {
-                    alert('📋 Hãy chia sẻ thông điệp: Cùng bảo vệ đại dương khỏi rác thải nhựa!');
+                    alert('📋 Please share this message: Together we can protect our oceans!');
                 });
         }
+
+        // Preload images for smooth transition
+        window.addEventListener('load', () => {
+            Object.values(actionData).forEach(data => {
+                const img = new Image();
+                img.src = data.image;
+            });
+        });
     </script>
 </body>
 </html>
