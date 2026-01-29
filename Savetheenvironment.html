@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐢 Ocean Guardian - Bảo Vệ Đại Dương</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e22ce 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated bubbles background */
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rise 15s infinite ease-in;
+        }
+
+        @keyframes rise {
+            to {
+                bottom: 110vh;
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        h1 {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .question-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+            line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .choice-btn {
+            background: white;
+            border: 3px solid #667eea;
+            color: #667eea;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .choice-btn:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .choice-btn:active {
+            transform: translateY(0);
+        }
+
+        .result {
+            display: none;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 20px auto;
+            border-radius: 20px;
+            object-fit: cover;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-message {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(17, 153, 142, 0.3);
+            line-height: 1.8;
+        }
+
+        .impact-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .stat-box {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #667eea;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .share-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .share-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .share-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .restart-btn {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .restart-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .question-box {
+                font-size: 1em;
+                padding: 20px;
+            }
+            
+            .choice-btn {
+                font-size: 1em;
+                padding: 15px 20px;
+            }
+            
+            .impact-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emoji-icon {
+            font-size: 1.3em;
+        }
+
+        .heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated bubbles -->
+    <script>
+        for (let i = 0; i < 15; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            const size = Math.random() * 60 + 20;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDelay = Math.random() * 15 + 's';
+            bubble.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.body.appendChild(bubble);
+        }
+    </script>
+
+    <div class="container">
+        <!-- Initial Question View -->
+        <div id="questionView">
+            <div class="logo">🐢</div>
+            <h1>Rùa Biển Cần Sự Giúp Đỡ!</h1>
+            <p class="subtitle">Một con rùa đang nhầm rác thải nhựa với thức ăn...</p>
+            
+            <div class="question-box">
+                <strong>❓ Bạn sẽ làm gì để bảo vệ rùa biển và đại dương?</strong>
+            </div>
+
+            <div class="choices">
+                <button class="choice-btn" onclick="makeChoice('reduce')">
+                    <span class="emoji-icon">♻️</span>
+                    <span>Tôi sẽ giảm sử dụng nhựa</span>
+                </button>
+                <button class="choice-btn" onclick="makeChoice('recycle')">
+                    <span class="emoji-icon">🗑️</span>
+                    <span>Tôi sẽ tái chế đúng cách</span>
+                </button>
+                <button class="choice-btn" onclick="makeChoice('spread')">
+                    <span class="emoji-icon">📢</span>
+                    <span>Tôi sẽ lan tỏa thông điệp này</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result View -->
+        <div id="resultView" class="result">
+            <div class="logo heartbeat">💚</div>
+            <h1>Cảm Ơn Bạn Đã Hành Động!</h1>
+            
+            <img id="resultImage" class="result-image" src="" alt="Ocean life">
+            
+            <div class="result-message" id="resultMessage">
+                ✨ <strong>Một hành động nhỏ có thể cứu một sinh mạng.</strong>
+            </div>
+
+            <div class="impact-stats">
+                <div class="stat-box">
+                    <span class="stat-number">8M</span>
+                    <span class="stat-label">tấn nhựa/năm vào đại dương</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">100K+</span>
+                    <span class="stat-label">sinh vật biển chết mỗi năm</span>
+                </div>
+                <div class="stat-box">
+                    <span class="stat-number">1</span>
+                    <span class="stat-label">hành động của bạn tạo nên khác biệt</span>
+                </div>
+            </div>
+
+            <div class="share-buttons">
+                <button class="share-btn" onclick="shareMessage()">
+                    📱 Chia Sẻ Thông Điệp
+                </button>
+                <button class="share-btn restart-btn" onclick="restart()">
+                    🔄 Bắt Đầu Lại
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messages = {
+            reduce: {
+                text: '🌊 <strong>Tuyệt vời!</strong><br><br>Giảm sử dụng nhựa là bước đầu tiên quan trọng nhất. Mỗi năm, 8 triệu tấn nhựa đổ ra đại dương.<br><br>💡 <em>Bắt đầu ngay: Dùng túi vải, bình nước, ống hút inox!</em>',
+                image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop'
+            },
+            recycle: {
+                text: '♻️ <strong>Tái chế thông minh!</strong><br><br>Tái chế đúng cách giúp giảm 70% rác thải nhựa. Chỉ 9% nhựa trên thế giới được tái chế.<br><br>💡 <em>Hãy phân loại rác ngay tại nhà!</em>',
+                image: 'https://images.unsplash.com/photo-1591025207163-942350e47db2?w=800&h=600&fit=crop'
+            },
+            spread: {
+                text: '📢 <strong>Lan tỏa là sức mạnh!</strong><br><br>Mỗi người ảnh hưởng trung bình 150 người khác. Thông điệp của bạn có thể cứu hàng nghìn sinh mạng.<br><br>💡 <em>Chia sẻ ngay với bạn bè và gia đình!</em>',
+                image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=600&fit=crop'
+            }
+        };
+
+        function makeChoice(choice) {
+            const questionView = document.getElementById('questionView');
+            const resultView = document.getElementById('resultView');
+            const resultMessage = document.getElementById('resultMessage');
+            const resultImage = document.getElementById('resultImage');
+
+            // Update content based on choice
+            const choiceData = messages[choice];
+            resultMessage.innerHTML = choiceData.text;
+            resultImage.src = choiceData.image;
+
+            // Animate transition
+            questionView.style.animation = 'fadeIn 0.5s ease-out reverse';
+            setTimeout(() => {
+                questionView.classList.add('hidden');
+                resultView.classList.add('show');
+            }, 500);
+        }
+
+        function restart() {
+            const questionView = document.getElementById('questionView');
+            const resultView = document.getElementById('resultView');
+
+            resultView.classList.remove('show');
+            setTimeout(() => {
+                questionView.classList.remove('hidden');
+                questionView.style.animation = 'fadeIn 0.8s ease-out';
+            }, 300);
+        }
+
+        function shareMessage() {
+            const shareText = "🐢 Tôi vừa cam kết bảo vệ đại dương! Hãy cùng hành động để cứu sinh vật biển khỏi rác thải nhựa. Mỗi hành động nhỏ đều tạo nên khác biệt lớn! 🌊💚";
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Ocean Guardian - Bảo Vệ Đại Dương',
+                    text: shareText,
+                    url: window.location.href
+                }).catch(() => {
+                    copyToClipboard(shareText);
+                });
+            } else {
+                copyToClipboard(shareText);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text + '\n\n' + window.location.href)
+                .then(() => {
+                    alert('✅ Đã sao chép thông điệp! Hãy chia sẻ đến mọi người nhé! 🌊');
+                })
+                .catch(() => {
+                    alert('📋 Hãy chia sẻ thông điệp: Cùng bảo vệ đại dương khỏi rác thải nhựa!');
+                });
+        }
+    </script>
+</body>
+</html>
